@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Form from 'components/Form/Form';
 import FormField from 'components/FormField/FormField';
@@ -48,6 +49,10 @@ class LoginView extends Component {
         );
     }
 }
+
+LoginView.propTypes = {
+    onLogin: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
     onLogin: authOperation.logIn,

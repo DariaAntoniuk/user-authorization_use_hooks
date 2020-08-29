@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import ThemeContext from 'context/ThemeContext';
 
@@ -41,6 +42,10 @@ class App extends Component {
         );
     }
 }
+
+App.propTypes = {
+    onGetCurrentUser: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
     onGetCurrentUser: authOperation.getCurrentUser,

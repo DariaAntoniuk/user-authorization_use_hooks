@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
 import Loader from 'components/Loader/Loader';
 import { authSelectors, authOperation } from 'redux/auth';
@@ -22,6 +23,13 @@ const UserMenu = ({ avatar, isLoading, name, onLogout }) => (
         )}
     </>
 );
+
+UserMenu.propTypes = {
+    avatar: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    onLogout: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
     isLoading: authSelectors.isLoading(state),

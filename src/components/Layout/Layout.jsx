@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import SiteBar from 'components/SiteBar/SiteBar';
 import withTheme from 'hoc/withTheme';
@@ -12,5 +13,11 @@ const Layout = ({ theme, children }) => (
         {children}
     </Styled.Layout>
 );
+
+Layout.propTypes = {
+    theme: PropTypes.shape({
+        isDark: PropTypes.bool.isRequired,
+    }).isRequired,
+};
 
 export default withTheme(Layout);

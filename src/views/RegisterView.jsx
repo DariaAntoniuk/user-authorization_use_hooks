@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Form from 'components/Form/Form';
 import FormField from 'components/FormField/FormField';
@@ -51,6 +52,10 @@ class RegisterView extends Component {
         );
     }
 }
+
+RegisterView.propTypes = {
+    onRegister: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
     onRegister: authOperation.register,

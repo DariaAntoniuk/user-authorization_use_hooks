@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { contactsSelectors, contactsOperations } from 'redux/contacts';
 
@@ -17,7 +18,7 @@ class ContactsView extends Component {
     }
 
     render() {
-        const { isContactsLength, isLoadingContacts, isError } = this.props;
+        const { isContactsLength, isLoadingContacts, error } = this.props;
 
         return (
             <div>
@@ -29,9 +30,9 @@ class ContactsView extends Component {
                 {isContactsLength > 1 && <ContactFilter />}
 
                 {isLoadingContacts && <Loader align="center" />}
-                {isError && <Notification message={isError} />}
+                {error && <Notification message={error} />}
 
-                {!!isContactsLength && !isError && <ContactList />}
+                {!!isContactsLength && !error && <ContactList />}
 
                 <ThemeButton />
             </div>
@@ -39,10 +40,16 @@ class ContactsView extends Component {
     }
 }
 
+ContactsView.propTypes = {
+    isContactsLength: PropTypes.bool.isRequired,
+    isLoadingContacts: PropTypes.bool.isRequired,
+    error: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = state => ({
     isContactsLength: contactsSelectors.getContacts(state).length,
     isLoadingContacts: contactsSelectors.getLoading(state),
-    isError: contactsSelectors.getError(state),
+    error: contactsSelectors.getError(state),
 });
 
 const mapDispatchToProps = {

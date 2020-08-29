@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { authSelectors } from 'redux/auth';
 
@@ -24,6 +25,10 @@ const Navigation = ({ isAuthenticated }) => (
         )}
     </nav>
 );
+
+Navigation.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = state => ({
     isAuthenticated: authSelectors.isAuthenticated(state),

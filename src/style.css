@@ -1,0 +1,56 @@
+.title-fade-appear {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.title-fade-appear-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 500ms linear;
+}
+
+.alert-fade-enter {
+    transform: translateX(100%);
+}
+
+.alert-fade-enter-active {
+    transform: translateX(0);
+    transition: transform 250ms linear;
+}
+
+.alert-fade-exit {
+    transform: translateX(0);
+}
+
+.alert-fade-exit-active {
+    transform: translateX(100%);
+    transition: transform 250ms linear;
+}
+
+.contact-list-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.contact-list-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 250ms linear;
+}
+
+.contact-list-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.contact-list-exit-active {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 250ms linear;
+}
+
+.header {
+    font-family: sans-serif;
+    color: #4040bf;
+    margin-bottom: 10px;
+}

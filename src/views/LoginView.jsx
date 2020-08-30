@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,47 +8,37 @@ import Button from 'components/Button/Button';
 
 import { authOperation } from 'redux/auth';
 
-class LoginView extends Component {
-    state = {
-        email: '',
-        password: '',
+const LoginView = ({ onLogin }) => {
+    const [{ email, password }, setState] = useState({ email: '', password: '' });
+    const handleChangeState = ({ target: { name, value } }) => {
+        setState(prevState => ({ ...prevState, [name]: value }));
     };
 
-    handleChange = ({ target: { name, value } }) => {
-        this.setState({
-            [name]: value,
-        });
-    };
-
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
 
-        this.props.onLogin({ ...this.state });
+        onLogin({ email, password });
     };
 
-    render() {
-        const { email, password } = this.state;
+    return (
+        <div>
+            <h1 className="header">Login Page</h1>
 
-        return (
-            <div>
-                <h1 className="header">Login Page</h1>
+            <Form onSubmit={handleSubmit}>
+                <FormField type="email" title="Email" name="email" value={email} onChange={handleChangeState} />
+                <FormField
+                    type="password"
+                    title="Password"
+                    name="password"
+                    value={password}
+                    onChange={handleChangeState}
+                />
 
-                <Form onSubmit={this.handleSubmit}>
-                    <FormField type="email" title="Email" name="email" value={email} onChange={this.handleChange} />
-                    <FormField
-                        type="password"
-                        title="Password"
-                        name="password"
-                        value={password}
-                        onChange={this.handleChange}
-                    />
-
-                    <Button title="Login" />
-                </Form>
-            </div>
-        );
-    }
-}
+                <Button title="Login" />
+            </Form>
+        </div>
+    );
+};
 
 LoginView.propTypes = {
     onLogin: PropTypes.func.isRequired,

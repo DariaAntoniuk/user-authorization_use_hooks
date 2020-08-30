@@ -27,7 +27,7 @@ const Navigation = ({ isAuthenticated }) => (
 );
 
 Navigation.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

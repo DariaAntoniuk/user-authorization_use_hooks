@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,38 +12,34 @@ import ContactList from 'components/ContactList/ContactList';
 import ThemeButton from 'components/ThemeButton/ThemeButton';
 import Notification from 'components/Notification/Notification';
 
-class ContactsView extends Component {
-    componentDidMount() {
-        this.props.onFetchContacts();
-    }
+const ContactsView = ({ isContactsLength, isLoadingContacts, error, onFetchContacts }) => {
+    useEffect(() => {
+        onFetchContacts();
+    }, []);
 
-    render() {
-        const { isContactsLength, isLoadingContacts, error } = this.props;
+    return (
+        <div>
+            <CSSTransition in appear timeout={500} classNames="title-fade" unmountOnExit>
+                <h1 className="header">Phonebook</h1>
+            </CSSTransition>
 
-        return (
-            <div>
-                <CSSTransition in appear timeout={500} classNames="title-fade" unmountOnExit>
-                    <h1 className="header">Phonebook</h1>
-                </CSSTransition>
+            <ContactForm />
+            {isContactsLength > 1 && <ContactFilter />}
 
-                <ContactForm />
-                {isContactsLength > 1 && <ContactFilter />}
+            {isLoadingContacts && <Loader align="center" />}
+            {error && <Notification message={error} />}
 
-                {isLoadingContacts && <Loader align="center" />}
-                {error && <Notification message={error} />}
+            {!!isContactsLength && !error && <ContactList />}
 
-                {!!isContactsLength && !error && <ContactList />}
-
-                <ThemeButton />
-            </div>
-        );
-    }
-}
+            <ThemeButton />
+        </div>
+    );
+};
 
 ContactsView.propTypes = {
-    isContactsLength: PropTypes.bool.isRequired,
+    isContactsLength: PropTypes.number.isRequired,
     isLoadingContacts: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

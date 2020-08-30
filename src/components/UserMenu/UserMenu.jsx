@@ -27,7 +27,7 @@ const UserMenu = ({ avatar, isLoading, name, onLogout }) => (
 UserMenu.propTypes = {
     avatar: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     onLogout: PropTypes.func.isRequired,
 };
 

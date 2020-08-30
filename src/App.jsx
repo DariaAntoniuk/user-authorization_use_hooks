@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,30 +18,24 @@ import { authOperation } from 'redux/auth';
 
 import { paths } from 'routes';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
+const App = ({ onGetCurrentUser }) => {
+    useMemo(onGetCurrentUser, []);
 
-        props.onGetCurrentUser();
-    }
+    return (
+        <ThemeContext>
+            <Layout>
+                <Switch>
+                    <PublicRoute path={paths.home} exact restricted={false} component={HomeView} />
+                    <PublicRoute path={paths.register} exact restricted component={RegisterView} />
+                    <PublicRoute path={paths.login} exact restricted component={LoginView} />
+                    <PrivateRoute path={paths.contacts} exact component={ContactsView} />
 
-    render() {
-        return (
-            <ThemeContext>
-                <Layout>
-                    <Switch>
-                        <PublicRoute path={paths.home} exact restricted={false} component={HomeView} />
-                        <PublicRoute path={paths.register} exact restricted component={RegisterView} />
-                        <PublicRoute path={paths.login} exact restricted component={LoginView} />
-                        <PrivateRoute path={paths.contacts} exact component={ContactsView} />
-
-                        <Redirect to={paths.home} />
-                    </Switch>
-                </Layout>
-            </ThemeContext>
-        );
-    }
-}
+                    <Redirect to={paths.home} />
+                </Switch>
+            </Layout>
+        </ThemeContext>
+    );
+};
 
 App.propTypes = {
     onGetCurrentUser: PropTypes.func.isRequired,

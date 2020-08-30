@@ -13,7 +13,7 @@ const FormField = ({ type = 'text', title, name, value, onChange }) => (
 FormField.propTypes = {
     type: PropTypes.string,
     title: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 };

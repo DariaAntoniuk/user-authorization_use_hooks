@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
@@ -10,77 +10,55 @@ import Button from 'components/Button/Button';
 
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
 
-class ContactForm extends Component {
-    static propTypes = {
-        onAddContact: PropTypes.func.isRequired,
+const initialState = { name: '', number: '' };
+const regexp = /^(\d{3,4}[-\s]?(\d{2}[-\s]?){2,3})$/;
+
+const ContactForm = ({ contacts, onAddContact }) => {
+    const [isExist, setIsExist] = useState(false);
+
+    const [{ name, number }, setState] = useState(initialState);
+    const handleChangeState = ({ target: { name, value } }) => {
+        setState(prevState => ({ ...prevState, [name]: value }));
     };
 
-    state = {
-        name: '',
-        number: '',
-        isExist: false,
-    };
-
-    handleInputChange = e => {
-        const { name, value } = e.target;
-
-        this.setState({
-            [name]: value,
-        });
-    };
-
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
 
-        const { name, number } = this.state;
-        const { contacts, onAddContact } = this.props;
-        const regexp = /^(\d{3,4}[-\s]?(\d{2}[-\s]?){2,3})$/;
         const isNumberValid = regexp.test(number);
-
         if (!isNumberValid) {
             alert('Please enter a valid number.');
             return;
         }
 
         const isAlreadyExist = contacts.some(contact => contact.name === name);
-
         if (isAlreadyExist) {
-            this.setState({
-                isExist: true,
-            });
-            setTimeout(() => {
-                this.setState({ isExist: false });
-            }, 3000);
-
+            setIsExist(true);
+            setTimeout(() => setIsExist(false), 3000);
             return;
         }
 
-        this.setState({
-            name: '',
-            number: '',
-        });
-
+        setState(initialState);
         onAddContact(name, number);
     };
 
-    render() {
-        const { name, number, isExist } = this.state;
+    return (
+        <>
+            <CSSTransition in={isExist} timeout={250} classNames="alert-fade" unmountOnExit>
+                <Alert />
+            </CSSTransition>
 
-        return (
-            <>
-                <CSSTransition in={isExist} timeout={250} classNames="alert-fade" unmountOnExit>
-                    <Alert />
-                </CSSTransition>
+            <Form onSubmit={handleSubmit}>
+                <FormField title="Name" name="name" value={name} onChange={handleChangeState} />
+                <FormField title="Number" name="number" value={number} onChange={handleChangeState} />
+                <Button title="Add contact" />
+            </Form>
+        </>
+    );
+};
 
-                <Form onSubmit={this.handleSubmit}>
-                    <FormField title="Name" name="name" value={name} onChange={this.handleInputChange} />
-                    <FormField title="Number" name="number" value={number} onChange={this.handleInputChange} />
-                    <Button title="Add contact" />
-                </Form>
-            </>
-        );
-    }
-}
+ContactForm.propTypes = {
+    onAddContact: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
     contacts: contactsSelectors.getContacts(state),

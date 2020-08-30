@@ -1,23 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 
 import SiteBar from 'components/SiteBar/SiteBar';
-import withTheme from 'hoc/withTheme';
+
+import { Context } from 'context/ThemeContext';
 
 import { Styled } from './Layout.styles';
 
-const Layout = ({ theme, children }) => (
-    <Styled.Layout className={theme.isDark ? 'dark' : ''}>
-        <SiteBar />
+const Layout = ({ children }) => {
+    const theme = useContext(Context);
 
-        {children}
-    </Styled.Layout>
-);
+    return (
+        <Styled.Layout className={theme.isDark ? 'dark' : ''}>
+            <SiteBar />
 
-Layout.propTypes = {
-    theme: PropTypes.shape({
-        isDark: PropTypes.bool.isRequired,
-    }).isRequired,
+            {children}
+        </Styled.Layout>
+    );
 };
 
-export default withTheme(Layout);
+export default Layout;

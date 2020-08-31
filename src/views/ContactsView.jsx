@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { contactsSelectors, contactsOperations } from 'redux/contacts';
 
@@ -12,10 +11,16 @@ import ContactList from 'components/ContactList/ContactList';
 import ThemeButton from 'components/ThemeButton/ThemeButton';
 import Notification from 'components/Notification/Notification';
 
-const ContactsView = ({ isContactsLength, isLoadingContacts, error, onFetchContacts }) => {
+const ContactsView = () => {
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        onFetchContacts();
+        dispatch(contactsOperations.fetchContacts());
     }, []);
+
+    const isContactsLength = useSelector(state => contactsSelectors.getContacts(state).length);
+    const isLoadingContacts = useSelector(state => contactsSelectors.getLoading(state));
+    const error = useSelector(state => contactsSelectors.getError(state));
 
     return (
         <div>
@@ -36,20 +41,4 @@ const ContactsView = ({ isContactsLength, isLoadingContacts, error, onFetchConta
     );
 };
 
-ContactsView.propTypes = {
-    isContactsLength: PropTypes.number.isRequired,
-    isLoadingContacts: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({
-    isContactsLength: contactsSelectors.getContacts(state).length,
-    isLoadingContacts: contactsSelectors.getLoading(state),
-    error: contactsSelectors.getError(state),
-});
-
-const mapDispatchToProps = {
-    onFetchContacts: contactsOperations.fetchContacts,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);
+export default ContactsView;

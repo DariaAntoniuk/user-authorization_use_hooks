@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Form from 'components/Form/Form';
 import FormField from 'components/FormField/FormField';
@@ -13,7 +12,10 @@ import { contactsOperations, contactsSelectors } from 'redux/contacts';
 const initialState = { name: '', number: '' };
 const regexp = /^(\d{3,4}[-\s]?(\d{2}[-\s]?){2,3})$/;
 
-const ContactForm = ({ contacts, onAddContact }) => {
+const ContactForm = () => {
+    const contacts = useSelector(state => contactsSelectors.getContacts(state));
+    const dispatch = useDispatch();
+
     const [isExist, setIsExist] = useState(false);
 
     const [{ name, number }, setState] = useState(initialState);
@@ -38,7 +40,7 @@ const ContactForm = ({ contacts, onAddContact }) => {
         }
 
         setState(initialState);
-        onAddContact(name, number);
+        dispatch(contactsOperations.addContact(name, number));
     };
 
     return (
@@ -56,16 +58,4 @@ const ContactForm = ({ contacts, onAddContact }) => {
     );
 };
 
-ContactForm.propTypes = {
-    onAddContact: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-    contacts: contactsSelectors.getContacts(state),
-});
-
-const mapDispatchToProps = {
-    onAddContact: contactsOperations.addContact,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default ContactForm;

@@ -1,18 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { authSelectors } from 'redux/auth';
 
-const mapStateToProps = state => ({
-    isAuthenticated: authSelectors.isAuthenticated(state),
-});
-
 const withAuth = WrappedComponent => {
     function WithAuth(props) {
-        return <WrappedComponent {...props} />;
+        const isAuthenticated = useSelector(state => authSelectors.isAuthenticated(state));
+
+        return <WrappedComponent {...props} isAuthenticated={isAuthenticated} />;
     }
 
-    return connect(mapStateToProps)(WithAuth);
+    return WithAuth;
 };
 
 export default withAuth;

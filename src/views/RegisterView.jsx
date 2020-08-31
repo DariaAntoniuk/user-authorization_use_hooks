@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import Form from 'components/Form/Form';
 import FormField from 'components/FormField/FormField';
@@ -8,16 +7,17 @@ import Button from 'components/Button/Button';
 
 import { authOperation } from 'redux/auth';
 
-const RegisterView = ({ onRegister }) => {
+const RegisterView = () => {
     const [{ name, email, password }, setState] = useState({ name: '', email: '', password: '' });
     const handleChangeState = ({ target: { name, value } }) => {
         setState(prevState => ({ ...prevState, [name]: value }));
     };
 
+    const dispatch = useDispatch();
     const handleSubmit = e => {
         e.preventDefault();
 
-        onRegister({ name, email, password });
+        dispatch(authOperation.register({ name, email, password }));
     };
 
     return (
@@ -41,12 +41,4 @@ const RegisterView = ({ onRegister }) => {
     );
 };
 
-RegisterView.propTypes = {
-    onRegister: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = {
-    onRegister: authOperation.register,
-};
-
-export default connect(null, mapDispatchToProps)(RegisterView);
+export default RegisterView;

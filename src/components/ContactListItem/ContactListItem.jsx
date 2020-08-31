@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { contactsOperations } from 'redux/contacts';
 
 import { Styled } from './ContactListItem.styles';
 
-const ContactListItem = ({ name, number, onRemove, onUpdate }) => {
+const ContactListItem = ({ id, name, number }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const [{ userName, phoneNumber }, setState] = useState({ userName: name, phoneNumber: number });
@@ -17,10 +17,11 @@ const ContactListItem = ({ name, number, onRemove, onUpdate }) => {
         setIsEditing(true);
     };
 
+    const dispatch = useDispatch();
     const handleSaveClick = () => {
         setIsEditing(false);
 
-        onUpdate(userName, phoneNumber);
+        dispatch(contactsOperations.updateContact(id, name, number));
     };
 
     const handleCancelClick = () => {
@@ -52,14 +53,13 @@ const ContactListItem = ({ name, number, onRemove, onUpdate }) => {
                 </>
             )}
 
-            <Styled.Image src="delete.png" alt="remove" onClick={onRemove} />
+            <Styled.Image
+                src="delete.png"
+                alt="remove"
+                onClick={() => dispatch(contactsOperations.removeContact(id))}
+            />
         </Styled.Item>
     );
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onRemove: () => dispatch(contactsOperations.removeContact(ownProps.id)),
-    onUpdate: (name, number) => dispatch(contactsOperations.updateContact(ownProps.id, name, number)),
-});
-
-export default connect(null, mapDispatchToProps)(ContactListItem);
+export default ContactListItem;

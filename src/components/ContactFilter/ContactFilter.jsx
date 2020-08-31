@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { contactsSelectors, contactsAction } from 'redux/contacts';
 
@@ -8,23 +7,19 @@ import FormField from 'components/FormField/FormField';
 
 import { Styled } from './ContactFilter.styles';
 
-const ContactFilter = ({ filter, onChangeFilter }) => (
-    <Styled.Filter>
-        <FormField title="Find contacts by name" value={filter} onChange={e => onChangeFilter(e.target.value)} />
-    </Styled.Filter>
-);
+const ContactFilter = () => {
+    const filter = useSelector(state => contactsSelectors.getFilter(state));
+    const dispatch = useDispatch();
 
-ContactFilter.propTypes = {
-    filter: PropTypes.string.isRequired,
-    onChangeFilter: PropTypes.func.isRequired,
+    return (
+        <Styled.Filter>
+            <FormField
+                title="Find contacts by name"
+                value={filter}
+                onChange={e => dispatch(contactsAction.changeFilter(e.target.value))}
+            />
+        </Styled.Filter>
+    );
 };
 
-const mapStateToProps = state => ({
-    filter: contactsSelectors.getFilter(state),
-});
-
-const mapDispatchToProps = {
-    onChangeFilter: contactsAction.changeFilter,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactFilter);
+export default ContactFilter;

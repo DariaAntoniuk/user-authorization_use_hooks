@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Navigation from 'components/Navigation/Navigation';
 import AuthNavigation from 'components/AuthNavigation/AuthNavigation';
@@ -9,16 +9,16 @@ import { authSelectors } from 'redux/auth';
 
 import { Styled } from './SiteBar.styles';
 
-const SiteBar = ({ isAuthenticated }) => (
-    <Styled.Header>
-        <Navigation />
+const SiteBar = () => {
+    const isAuthenticated = useSelector(state => authSelectors.isAuthenticated(state));
 
-        {isAuthenticated ? <UserMenu /> : <AuthNavigation />}
-    </Styled.Header>
-);
+    return (
+        <Styled.Header>
+            <Navigation />
 
-const mapStateToProps = state => ({
-    isAuthenticated: authSelectors.isAuthenticated(state),
-});
+            {isAuthenticated ? <UserMenu /> : <AuthNavigation />}
+        </Styled.Header>
+    );
+};
 
-export default connect(mapStateToProps)(SiteBar);
+export default SiteBar;

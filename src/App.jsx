@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useStore } from 'react-redux';
 
 import ThemeContext from 'context/ThemeContext';
 
@@ -18,8 +17,9 @@ import { authOperation } from 'redux/auth';
 
 import { paths } from 'routes';
 
-const App = ({ onGetCurrentUser }) => {
-    useMemo(onGetCurrentUser, []);
+const App = () => {
+    const { dispatch, getState } = useStore();
+    useMemo(() => authOperation.getCurrentUser()(dispatch, getState), []);
 
     return (
         <ThemeContext>
@@ -37,12 +37,4 @@ const App = ({ onGetCurrentUser }) => {
     );
 };
 
-App.propTypes = {
-    onGetCurrentUser: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = {
-    onGetCurrentUser: authOperation.getCurrentUser,
-};
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

@@ -19,7 +19,7 @@ import { paths } from 'routes';
 
 const App = () => {
     const { dispatch, getState } = useStore();
-    useMemo(() => authOperation.getCurrentUser()(dispatch, getState), []);
+    useMemo(() => authOperation.getCurrentUser()(dispatch, getState), [dispatch, getState]);
 
     return (
         <ThemeContext>

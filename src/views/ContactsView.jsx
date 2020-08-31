@@ -16,7 +16,7 @@ const ContactsView = () => {
 
     useEffect(() => {
         dispatch(contactsOperations.fetchContacts());
-    }, []);
+    }, [dispatch]);
 
     const isContactsLength = useSelector(state => contactsSelectors.getContacts(state).length);
     const isLoadingContacts = useSelector(state => contactsSelectors.getLoading(state));

@@ -10,7 +10,7 @@ import Button from 'components/Button/Button';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
 
 const initialState = { name: '', number: '' };
-const regexp = /^(\d{3,4}[-\s]?(\d{2}[-\s]?){2,3})$/;
+const phoneRegexp = /^(\d{3,4}[-\s]?(\d{2}[-\s]?){2,3})$/;
 
 const ContactForm = () => {
     const contacts = useSelector(state => contactsSelectors.getContacts(state));
@@ -26,7 +26,7 @@ const ContactForm = () => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        const isNumberValid = regexp.test(number);
+        const isNumberValid = phoneRegexp.test(number);
         if (!isNumberValid) {
             alert('Please enter a valid number.');
             return;

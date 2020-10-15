@@ -35,7 +35,7 @@ const logIn = credentials => dispatch => {
         .catch(error => dispatch(authActions.logInError(error.message)));
 };
 
-const logOut = () => dispatch => {
+const logOut = dispatch => {
     dispatch(authActions.LOG_OUT_REQUEST);
 
     axios
@@ -47,7 +47,7 @@ const logOut = () => dispatch => {
         .catch(error => dispatch(authActions.logOutError(error.message)));
 };
 
-const getCurrentUser = () => (dispatch, getState) => {
+const getCurrentUser = (dispatch, getState) => {
     const {
         auth: { token: persistedToken },
     } = getState();

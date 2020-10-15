@@ -7,8 +7,10 @@ import Button from 'components/Button/Button';
 
 import { authOperation } from 'redux/auth';
 
+const initialState = { email: '', password: '' };
+
 const LoginView = () => {
-    const [{ email, password }, setState] = useState({ email: '', password: '' });
+    const [{ email, password }, setState] = useState(initialState);
     const handleChangeState = ({ target: { name, value } }) => {
         setState(prevState => ({ ...prevState, [name]: value }));
     };

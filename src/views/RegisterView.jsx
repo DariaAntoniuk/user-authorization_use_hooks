@@ -7,8 +7,10 @@ import Button from 'components/Button/Button';
 
 import { authOperation } from 'redux/auth';
 
+const initialState = { name: '', email: '', password: '' };
+
 const RegisterView = () => {
-    const [{ name, email, password }, setState] = useState({ name: '', email: '', password: '' });
+    const [{ name, email, password }, setState] = useState(initialState);
     const handleChangeState = ({ target: { name, value } }) => {
         setState(prevState => ({ ...prevState, [name]: value }));
     };

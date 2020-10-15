@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import { useStore } from 'react-redux';
 
-import ThemeContext from 'context/ThemeContext';
+import useConstructor from './utils/useConstructor';
+
+import ThemeContextProvider from 'context/ThemeContext';
 
 import PrivateRoute from 'components/Route/PrivateRoute';
 import PublicRoute from 'components/Route/PublicRoute';
@@ -19,10 +21,11 @@ import { paths } from 'routes';
 
 const App = () => {
     const { dispatch, getState } = useStore();
-    useMemo(() => authOperation.getCurrentUser()(dispatch, getState), [dispatch, getState]);
+
+    useConstructor(() => authOperation.getCurrentUser(dispatch, getState), [dispatch, getState]);
 
     return (
-        <ThemeContext>
+        <ThemeContextProvider>
             <Layout>
                 <Switch>
                     <PublicRoute path={paths.home} exact restricted={false} component={HomeView} />
@@ -33,7 +36,7 @@ const App = () => {
                     <Redirect to={paths.home} />
                 </Switch>
             </Layout>
-        </ThemeContext>
+        </ThemeContextProvider>
     );
 };
 

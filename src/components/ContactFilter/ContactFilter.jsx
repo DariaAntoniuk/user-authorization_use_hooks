@@ -11,13 +11,11 @@ const ContactFilter = () => {
     const filter = useSelector(state => contactsSelectors.getFilter(state));
     const dispatch = useDispatch();
 
+    const handleFilterContacts = e => dispatch(contactsAction.changeFilter(e.target.value));
+
     return (
         <Styled.Filter>
-            <FormField
-                title="Find contacts by name"
-                value={filter}
-                onChange={e => dispatch(contactsAction.changeFilter(e.target.value))}
-            />
+            <FormField title="Find contacts by name" value={filter} onChange={handleFilterContacts} />
         </Styled.Filter>
     );
 };

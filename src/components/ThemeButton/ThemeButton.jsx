@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { Context } from 'context/ThemeContext';
+import useThemeContext from 'utils/useThemeContext';
 
 import { Styled } from './ThemeButton.styles';
 
 const ThemeButton = () => {
-    const theme = useContext(Context);
+    const theme = useThemeContext();
 
     return (
         <Styled.Button onClick={theme.toggleTheme} className={theme.isDark ? 'btn-dark' : ''}>

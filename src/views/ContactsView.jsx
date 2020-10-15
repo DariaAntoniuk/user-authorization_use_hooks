@@ -18,7 +18,7 @@ const ContactsView = () => {
         dispatch(contactsOperations.fetchContacts());
     }, [dispatch]);
 
-    const isContactsLength = useSelector(state => contactsSelectors.getContacts(state).length);
+    const contactsLength = useSelector(state => contactsSelectors.getContacts(state).length);
     const isLoadingContacts = useSelector(state => contactsSelectors.getLoading(state));
     const error = useSelector(state => contactsSelectors.getError(state));
 
@@ -29,12 +29,12 @@ const ContactsView = () => {
             </CSSTransition>
 
             <ContactForm />
-            {isContactsLength > 1 && <ContactFilter />}
+            {contactsLength > 1 && <ContactFilter />}
 
             {isLoadingContacts && <Loader align="center" />}
             {error && <Notification message={error} />}
 
-            {!!isContactsLength && !error && <ContactList />}
+            {!!contactsLength && !error && <ContactList />}
 
             <ThemeButton />
         </div>

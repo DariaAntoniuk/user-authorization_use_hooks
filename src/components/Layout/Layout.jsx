@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import SiteBar from 'components/SiteBar/SiteBar';
 
-import { Context } from 'context/ThemeContext';
+import useThemeContext from 'utils/useThemeContext';
 
 import { Styled } from './Layout.styles';
 
 const Layout = ({ children }) => {
-    const theme = useContext(Context);
+    const theme = useThemeContext();
 
     return (
         <Styled.Layout className={theme.isDark ? 'dark' : ''}>

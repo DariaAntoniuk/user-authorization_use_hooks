@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { contactsOperations } from 'redux/contacts';
 
@@ -29,6 +30,8 @@ const ContactListItem = ({ id, name, number }) => {
         setState({ userName: name, phoneNumber: number });
     };
 
+    const handleRemoveContact = () => dispatch(contactsOperations.removeContact(id));
+
     return (
         <Styled.Item>
             {!isEditing ? (
@@ -53,13 +56,15 @@ const ContactListItem = ({ id, name, number }) => {
                 </>
             )}
 
-            <Styled.Image
-                src="delete.png"
-                alt="remove"
-                onClick={() => dispatch(contactsOperations.removeContact(id))}
-            />
+            <Styled.Image src="delete.png" alt="remove" onClick={handleRemoveContact} />
         </Styled.Item>
     );
+};
+
+ContactListItem.propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
 };
 
 export default ContactListItem;

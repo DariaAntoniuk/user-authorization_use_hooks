@@ -14,22 +14,19 @@ const UserMenu = () => {
     const name = useSelector(state => authSelectors.getUserName(state));
 
     const dispatch = useDispatch();
-    const onLogout = dispatch(authOperation.logOut);
 
-    return (
-        <>
-            {isLoading ? (
-                <Loader align="right" />
-            ) : (
-                <Styled.Nav>
-                    <Styled.Image src={avatar} alt="user image" />
-                    <Styled.Span>Welcome, {name}</Styled.Span>
-                    <Button onClick={onLogout} variant="outlined" color="primary" size="small">
-                        Logout
-                    </Button>
-                </Styled.Nav>
-            )}
-        </>
+    const onLogout = () => authOperation.logOut(dispatch);
+
+    return isLoading ? (
+        <Loader align="right" />
+    ) : (
+        <Styled.Nav>
+            <Styled.Image src={avatar} alt="user image" />
+            <Styled.Span>Welcome, {name}</Styled.Span>
+            <Button onClick={onLogout} variant="outlined" color="primary" size="small">
+                Logout
+            </Button>
+        </Styled.Nav>
     );
 };
 
